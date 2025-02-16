@@ -16,3 +16,4 @@ These csv files contain the data in the format: (phi, psi, residue)
 
 Approximate wall-time for angles_calc.py is around 60 min. 
 
+Both scripts after running generate a _debug.log_ file which has logs for starting the execution of a process and errors (if any) for each function call. 
