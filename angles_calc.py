@@ -115,6 +115,36 @@ def prune_pdb_files(file_path, output_dir):
     # Expected time for cleaning: 26.33480230967204 minutes (sequential)
     # Expected time for angle calculation: 16.18500550587972 minutes (sequential)
 
+def get_angles_res(pdb_id, file_path, chain_id, res = 'I'):
+    angles = []
+    for model in Bio.PDB.PDBParser().get_structure(pdb_id, file_path):
+        for chain in model:
+            if chain.id == chain_id:
+                poly = Bio.PDB.Polypeptide.Polypeptide(chain)
+                phiPsi_list = np.asarray(poly.get_phi_psi_list())
+                seq = np.array(poly.get_sequence(), dtype=str)
+                idx = np.where(seq == res)[0]
+                angles.extend(phiPsi_list[idx])
+
+    return angles
+
+def get_all_angles_res(pdb_files_dir, output_file, res = 'I'):
+    data = []
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        results = executor.map(get_angles_res, 
+                     [file.split('_')[0] for file in os.listdir(pdb_files_dir)], 
+                     [f'{pdb_files_dir}/{file}' for file in os.listdir(pdb_files_dir)], 
+                     [file.split('_')[1].split('.')[0] for file in os.listdir(pdb_files_dir)], 
+                     [res for _ in range(len(os.listdir(pdb_files_dir)))]
+                      )
+    
+    # concatenate the results
+    for result in results:
+        data.extend(result)
+
+    data = pd.DataFrame(data, columns=['phi', 'psi'])
+    data.to_csv(output_file, index=False)
+    print('Saved:', output_file)
 
 def check_missing_files(pdb_list, file_dir):
     '''
