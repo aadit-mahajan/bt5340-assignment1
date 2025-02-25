@@ -41,7 +41,7 @@ if __name__ == '__main__':
     # no charged res in sequence
     idx_nocharge = data_7res[data_7res["charged"] == False].index
     ramachandran_plot(data_7res.iloc[idx_nocharge]["phi"], data_7res.iloc[idx_nocharge]["psi"], 
-                      f"{FIG_DIR}/charged_7res.png", "non charged environment")
+                      f"{FIG_DIR}/noncharged_7res.png", "non charged environment")
     # indices based on secondary structure
     idx_helix = data_7res[data_7res["sec_struct"] == 'h'].index
     idx_sheet = data_7res[data_7res["sec_struct"] == 's'].index
@@ -54,8 +54,8 @@ if __name__ == '__main__':
     ramachandran_plot(data_7res.iloc[idx_sheet.union(idx_hs)]["phi"], data_7res.iloc[idx_sheet.union(idx_hs)]["psi"], 
                     f"{FIG_DIR}/sheet_7res.png", "sheet")
     # I in either helix or sheet
-    ramachandran_plot(data_7res.iloc[idx_sheet.union(idx_sheet).union(idx_hs)]["phi"], 
-                    data_7res.iloc[idx_sheet.union(idx_sheet).union(idx_hs)]["psi"], f"{FIG_DIR}/noncoil_7res.png", "helix and sheet")
+    ramachandran_plot(data_7res.iloc[idx_sheet.union(idx_helix).union(idx_hs)]["phi"], 
+                    data_7res.iloc[idx_sheet.union(idx_helix).union(idx_hs)]["psi"], f"{FIG_DIR}/noncoil_7res.png", "helix and sheet")
     # I in coil
     ramachandran_plot(data_7res.iloc[idx_coil]["phi"], data_7res.iloc[idx_coil]["psi"], f"{FIG_DIR}/coil_7res.png", "coiled")
 
