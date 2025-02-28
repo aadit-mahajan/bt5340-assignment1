@@ -97,13 +97,13 @@ def get_angles_7res(pdb_id, file_path, full_pdb_dir, chain_id, res = 'I'):
                     
                         # get secondary structure of sequence
                         if helix is not None:
-                            inside_helix = [1 if helix[r, 0] <= i <= helix[r, 1] else 0 for r in range(np.shape(helix)[0])]
+                            inside_helix = [1 if helix[r, 0] < i < helix[r, 1] else 0 for r in range(np.shape(helix)[0])]
                             sum_helix = np.sum(inside_helix)
                         else:
                             sum_helix = 0
                         
                         if sheet is not None:
-                            inside_sheet = [1 if sheet[r, 0] <= i <= sheet[r, 1] else 0 for r in range(np.shape(sheet)[0])]
+                            inside_sheet = [1 if sheet[r, 0] < i < sheet[r, 1] else 0 for r in range(np.shape(sheet)[0])]
                             sum_sheet = np.sum(inside_sheet)
                         else:
                             sum_sheet = 0
