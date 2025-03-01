@@ -70,3 +70,23 @@ if __name__ == '__main__':
     # I in coil
     ramachandran_plot(data_7res.iloc[idx_coil]["phi"], data_7res.iloc[idx_coil]["psi"], f"{FIG_DIR}/coil_7res.png", "coiled", norm_factor=norm_factor)
 
+    # some statistics
+    print(f"all Ile: {np.shape(all_angles[:, 0])[0]}")
+    print(f"Ile in 7res: {len(data_7res['phi'])}, {len(data_7res['phi'])/np.shape(all_angles[:, 0])[0]*100}%")
+    print(f"charged: {len(idx_charge)}, {len(idx_charge)/len(data_7res['phi'])*100}%")
+    print(f"non-charged: {len(idx_nocharge)}, {len(idx_nocharge)/len(data_7res['phi'])*100}%")
+    print(f"helix: {len(idx_helix)}, {len(idx_helix)/len(data_7res['phi'])*100}%")
+    print(f"sheet: {len(idx_sheet)}, {len(idx_sheet)/len(data_7res['phi'])*100}%")
+    print(f"coil: {len(idx_coil)}, {len(idx_coil)/len(data_7res['phi'])*100}%")
+    charg_h = data_7res[(data_7res["sec_struct"] == 'h') & (data_7res["charged"] == True)].index
+    charg_s = data_7res[(data_7res["sec_struct"] == 's') & (data_7res["charged"] == True)].index
+    charg_c = data_7res[(data_7res["sec_struct"] == 'c') & (data_7res["charged"] == True)].index
+    noncharg_h = data_7res[(data_7res["sec_struct"] == 'h') & (data_7res["charged"] == False)].index
+    noncharg_s = data_7res[(data_7res["sec_struct"] == 's') & (data_7res["charged"] == False)].index
+    noncharg_c = data_7res[(data_7res["sec_struct"] == 'c') & (data_7res["charged"] == False)].index
+    print(f"charged, helix: {len(charg_h)}, {len(charg_h)/len(idx_charge)*100}%")
+    print(f"charged, sheet: {len(charg_s)}, {len(charg_s)/len(idx_charge)*100}%")
+    print(f"charged, coil: {len(charg_c)}, {len(charg_c)/len(idx_charge)*100}%")
+    print(f"non-charged, helix: {len(noncharg_h)}, {len(noncharg_h)/len(idx_nocharge)*100}%")
+    print(f"non-charged, sheet: {len(noncharg_s)}, {len(noncharg_s)/len(idx_nocharge)*100}%")
+    print(f"non-charged, coil: {len(noncharg_c)}, {len(noncharg_c)/len(idx_nocharge)*100}%")
